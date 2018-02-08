@@ -35,23 +35,21 @@ public class Caesar {
 	}
 	
 	public static String encode(String openText, String key) {
-		int keyParsed = 0;
-		try {
-			keyParsed = Integer.parseInt(key);
-		} catch (Exception e) {
+		if (isValidKey(key)) {
+			int keyParsed = Integer.parseInt(key);
+			return encode(openText, keyParsed);
+		} else {
 			return "";
 		}
-		return encode(openText, keyParsed);
 	}
 	
 	public static String decode(String encodedText, String key) {
-		int keyParsed = 0;
-		try {
-			keyParsed = Integer.parseInt(key);
-		} catch (Exception e) {
+		if (isValidKey(key)) {
+			int keyParsed = Integer.parseInt(key);
+			return decode(encodedText, keyParsed);
+		} else {
 			return "";
 		}
-		return encode(encodedText, keyParsed);
 	}
 	
 	private static int getIndexByRange(char cp) {
@@ -62,5 +60,14 @@ public class Caesar {
 		} else {
 			return 0;
 		}
+	}
+	
+	public static boolean isValidKey(String key) {
+		try {
+			Integer.parseInt(key);
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
 	}
 }

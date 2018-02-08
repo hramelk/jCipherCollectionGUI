@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 public class GUI extends JFrame implements ActionListener {
 	private static final long	serialVersionUID	= 1L;
@@ -58,6 +60,21 @@ public class GUI extends JFrame implements ActionListener {
 		
 		setLayout(leftFlow);
 		
+		// Listen for changes in the text
+		keyText.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				checkKeyCipherCompatibility();
+			}
+			
+			public void removeUpdate(DocumentEvent e) {
+				checkKeyCipherCompatibility();
+			}
+			
+			public void insertUpdate(DocumentEvent e) {
+				checkKeyCipherCompatibility();
+			}
+		});
+		
 		inputText.setLineWrap(true);
 		inputText.setWrapStyleWord(true);
 		TransferFocus.patch(inputText);
@@ -77,11 +94,9 @@ public class GUI extends JFrame implements ActionListener {
 		resultPanel.add(resultScrollPane);
 		
 		ActionListener cipherSelectorListener = new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				
+				checkKeyCipherCompatibility();
 			}
 		};
 		
@@ -139,12 +154,10 @@ public class GUI extends JFrame implements ActionListener {
 		String encoded = "";
 		
 		switch (cipher) {
-		case 0:
-			// Caesar
+		case 0: // Caesar
 			encoded = Caesar.encode(textOriginal, key);
 			break;
-		case 1:
-			// Viginere
+		case 1: // Viginere
 			encoded = Vigenere.encode(textOriginal, key);
 			break;
 		case 2:
@@ -188,5 +201,39 @@ public class GUI extends JFrame implements ActionListener {
 		}
 		
 		return decoded;
+	}
+	
+	public void checkKeyCipherCompatibility() {
+		int cipherIndex = cipherSelectorBox.getSelectedIndex();
+		String key = keyText.getText();
+		
+		boolean keyIsValid = false;
+		
+		switch (cipherIndex) {
+		case 0: // Caesar
+			keyIsValid = Caesar.isValidKey(key);
+			break;
+		case 1: // Viginere
+			keyIsValid = true;
+			break;
+		case 2:
+			keyIsValid = true;
+			break;
+		case 3:
+			keyIsValid = true;
+			break;
+		case 4:
+			keyIsValid = true;
+			break;
+		default:
+			break;
+		}
+		
+		if (keyIsValid) {
+			keyText.setBackground(Color.WHITE);
+		} else {
+			keyText.setBackground(Color.PINK);
+		}
+		
 	}
 }
