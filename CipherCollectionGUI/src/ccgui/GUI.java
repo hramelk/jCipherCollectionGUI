@@ -49,7 +49,7 @@ public class GUI extends JFrame implements ActionListener {
 	private String[]			cipherList			= {
 			"Caesar",
 			"Viginere",
-			"Something",
+			"Keyword",
 			"Other",
 			"etc."									};
 	private JComboBox<String>	cipherSelectorBox	= new JComboBox<String>(
@@ -161,7 +161,7 @@ public class GUI extends JFrame implements ActionListener {
 			encoded = Vigenere.encode(textOriginal, key);
 			break;
 		case 2:
-			encoded = Cipher2.encode(textOriginal, key);
+			encoded = KeywordCipher.encode(textOriginal, key);
 			break;
 		case 3:
 			encoded = Cipher3.encode(textOriginal, key);
@@ -188,7 +188,7 @@ public class GUI extends JFrame implements ActionListener {
 			decoded = Vigenere.decode(textEncoded, key);
 			break;
 		case 2:
-			decoded = Cipher2.decode(textEncoded, key);
+			decoded = KeywordCipher.decode(textEncoded, key);
 			break;
 		case 3:
 			decoded = Cipher3.decode(textEncoded, key);
@@ -216,8 +216,8 @@ public class GUI extends JFrame implements ActionListener {
 		case 1: // Viginere
 			keyIsValid = true;
 			break;
-		case 2:
-			keyIsValid = true;
+		case 2: // Keyword Cipher
+			keyIsValid = KeywordCipher.isValidKey(key);
 			break;
 		case 3:
 			keyIsValid = true;
