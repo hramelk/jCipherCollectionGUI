@@ -50,10 +50,12 @@ public class GUI extends JFrame implements ActionListener {
 			"Caesar",
 			"Viginere",
 			"Keyword",
-			"Other",
+			"Atbash",
 			"etc."									};
 	private JComboBox<String>	cipherSelectorBox	= new JComboBox<String>(
 															cipherList);
+	
+	private static boolean		isValidKey			= true;
 	
 	public GUI() throws HeadlessException {
 		super("Cipher collection");
@@ -133,7 +135,10 @@ public class GUI extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		String input = inputText.getText();
 		String key = keyText.getText();
-		if (input.isEmpty() || key.isEmpty()) {
+		// if (input.isEmpty() || key.isEmpty()) {
+		// return;
+		// }
+		if (input.isEmpty() || !isValidKey) {
 			return;
 		}
 		String output = "";
@@ -160,11 +165,11 @@ public class GUI extends JFrame implements ActionListener {
 		case 1: // Viginere
 			encoded = Vigenere.encode(textOriginal, key);
 			break;
-		case 2:
+		case 2: // Keyword Cipher
 			encoded = KeywordCipher.encode(textOriginal, key);
 			break;
-		case 3:
-			encoded = Cipher3.encode(textOriginal, key);
+		case 3: // Atbash
+			encoded = Atbash.encode(textOriginal);
 			break;
 		case 4:
 			encoded = Cipher4.encode(textOriginal, key);
@@ -187,11 +192,11 @@ public class GUI extends JFrame implements ActionListener {
 		case 1: // Viginere
 			decoded = Vigenere.decode(textEncoded, key);
 			break;
-		case 2:
+		case 2: // Keyword Cipher
 			decoded = KeywordCipher.decode(textEncoded, key);
 			break;
-		case 3:
-			decoded = Cipher3.decode(textEncoded, key);
+		case 3: // Atbash
+			decoded = Atbash.decode(textEncoded);
 			break;
 		case 4:
 			decoded = Cipher4.decode(textEncoded, key);
@@ -219,8 +224,12 @@ public class GUI extends JFrame implements ActionListener {
 		case 2: // Keyword Cipher
 			keyIsValid = KeywordCipher.isValidKey(key);
 			break;
-		case 3:
-			keyIsValid = true;
+		case 3: // Atbash
+			if (key.isEmpty() || key == null) {
+				keyIsValid = true;
+			} else {
+				keyIsValid = false;
+			}
 			break;
 		case 4:
 			keyIsValid = true;
@@ -228,6 +237,8 @@ public class GUI extends JFrame implements ActionListener {
 		default:
 			break;
 		}
+		
+		isValidKey = keyIsValid;
 		
 		if (keyIsValid) {
 			keyText.setBackground(Color.WHITE);
