@@ -51,7 +51,7 @@ public class GUI extends JFrame implements ActionListener {
 			"Viginere",
 			"Keyword",
 			"Atbash",
-			"etc."									};
+			"Dvorak"								};
 	private JComboBox<String>	cipherSelectorBox	= new JComboBox<String>(
 															cipherList);
 	
@@ -120,7 +120,6 @@ public class GUI extends JFrame implements ActionListener {
 		mainPanel.setPreferredSize(new Dimension(370, 340));
 		mainPanel.setBackground(Color.red);
 		mainPanel.setBackground(mainColor);
-		// setBackground(Color.darkGray);
 		getContentPane().setBackground(mainColor);
 		
 		add(mainPanel);
@@ -135,9 +134,6 @@ public class GUI extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		String input = inputText.getText();
 		String key = keyText.getText();
-		// if (input.isEmpty() || key.isEmpty()) {
-		// return;
-		// }
 		if (input.isEmpty() || !isValidKey) {
 			return;
 		}
@@ -145,10 +141,8 @@ public class GUI extends JFrame implements ActionListener {
 		Object source = arg0.getSource();
 		int cipherIndex = cipherSelectorBox.getSelectedIndex();
 		if (source == encodeButton) {
-			// System.out.println("encode");
 			output = getEncoded(cipherIndex, input, key);
 		} else if (source == decodeButton) {
-			// System.out.println("decode");
 			output = getDecoded(cipherIndex, input, key);
 		}
 		resultText.setText(output);
@@ -171,8 +165,8 @@ public class GUI extends JFrame implements ActionListener {
 		case 3: // Atbash
 			encoded = Atbash.encode(textOriginal);
 			break;
-		case 4:
-			encoded = Cipher4.encode(textOriginal, key);
+		case 4: // Dvorak
+			encoded = Dvorak.encode(textOriginal);
 			break;
 		default:
 			break;
@@ -198,8 +192,8 @@ public class GUI extends JFrame implements ActionListener {
 		case 3: // Atbash
 			decoded = Atbash.decode(textEncoded);
 			break;
-		case 4:
-			decoded = Cipher4.decode(textEncoded, key);
+		case 4: // Dvorak
+			decoded = Dvorak.decode(textEncoded);
 			break;
 		default:
 			break;
@@ -231,8 +225,12 @@ public class GUI extends JFrame implements ActionListener {
 				keyIsValid = false;
 			}
 			break;
-		case 4:
-			keyIsValid = true;
+		case 4: // Dvorak
+			if (key.isEmpty() || key == null) {
+				keyIsValid = true;
+			} else {
+				keyIsValid = false;
+			}
 			break;
 		default:
 			break;
