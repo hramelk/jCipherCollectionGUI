@@ -33,8 +33,6 @@ public class GUI extends JFrame implements ActionListener {
 															"Enter your plain text here:");
 	private JTextArea			inputText			= new JTextArea(7,
 															columnSize);
-	// private JTextArea inputText = new HintTextArea(
-	// "Enter your plain text here");
 	private JScrollPane			inputScrollPane		= new JScrollPane();
 	private JLabel				keyLabel			= new JLabel("Key: ");
 	private JTextField			keyText				= new JTextField(columnSize
@@ -86,19 +84,14 @@ public class GUI extends JFrame implements ActionListener {
 			}
 		});
 		keyText.setToolTipText("Enter your key here.");
-		// keyText.setText("Choose a cipher.");
 		keyText.setBackground(Color.white);
 		keyText.setEnabled(false);
 		
 		inputText.setLineWrap(true);
 		inputText.setWrapStyleWord(true);
-		// inputText.setRows(7);
-		// inputText.setColumns(columnSize);
 		inputText.setToolTipText("Enter your plain text here.");
 		TransferFocus.patch(inputText);
 		inputPanel.setBackground(mainColor);
-		// inputPanel.setPreferredSize(new Dimension(360, 150));
-		// inputPanel.setPreferredSize(new Dimension(360, 170));
 		inputPanel.setPreferredSize(new Dimension(360, 190));
 		inputScrollPane.setViewportView(inputText);
 		inputPanel.add(inputLabel);
@@ -112,7 +105,6 @@ public class GUI extends JFrame implements ActionListener {
 		resultText.setToolTipText("Your result will be shown here.");
 		TransferFocus.patch(resultText);
 		resultPanel.setBackground(mainColor);
-		// resultPanel.setPreferredSize(new Dimension(360, 130));
 		resultPanel.setPreferredSize(new Dimension(360, 150));
 		resultScrollPane.setViewportView(resultText);
 		resultPanel.add(resultLabel);
@@ -143,8 +135,6 @@ public class GUI extends JFrame implements ActionListener {
 		mainPanel.add(comboBoxPanel);
 		mainPanel.add(buttonPanel);
 		mainPanel.add(resultPanel);
-		// mainPanel.setPreferredSize(new Dimension(370, 340));
-		// mainPanel.setPreferredSize(new Dimension(370, 380));
 		mainPanel.setPreferredSize(new Dimension(370, 400));
 		mainPanel.setBackground(Color.red);
 		mainPanel.setBackground(mainColor);
@@ -154,8 +144,6 @@ public class GUI extends JFrame implements ActionListener {
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationByPlatform(true);
-		// setSize(400, 400);
-		// setSize(400, 440);
 		setSize(400, 440);
 		setVisible(true);
 	}
@@ -262,18 +250,6 @@ public class GUI extends JFrame implements ActionListener {
 			keyIsNeeded = false;
 			isCipher = false;
 		}
-		
-		// keyText.setEnabled(keyIsNeeded);
-		// if (keyIsNeeded) {
-		// keyText.setText("");
-		// } else {
-		// keyText.setText("A key is not needed for this cipher");
-		// keyText.setBackground(Color.white);
-		// }
-		// if (!isCipher) {
-		// keyText.setText("Choose a cipher.");
-		// keyText.setBackground(Color.white);
-		// }
 		
 		if (keyIsNeeded) {
 			keyHintLabel.setText(hint);
