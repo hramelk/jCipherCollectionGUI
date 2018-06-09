@@ -4,6 +4,9 @@ public class Vigenere {
 	public static String encode(String openText, String key) {
 		String encoded = "";
 		int keysize = key.length();
+		if (keysize == 0) {
+			return "";
+		}
 		key = deSymbolizeKey(key);
 		key = key.toUpperCase();
 		for (int i = 0; i < openText.length(); i++) {
@@ -24,6 +27,9 @@ public class Vigenere {
 	public static String decode(String encodedText, String key) {
 		String decoded = "";
 		int keysize = key.length();
+		if (keysize == 0) {
+			return "";
+		}
 		key = deSymbolizeKey(key);
 		key = key.toUpperCase();
 		for (int i = 0; i < encodedText.length(); i++) {

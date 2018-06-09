@@ -29,14 +29,22 @@ public class GUI extends JFrame implements ActionListener {
 	private Color				mainColor			= Color.lightGray;
 	
 	private JPanel				inputPanel			= new JPanel(leftFlow);
+	private JLabel				inputLabel			= new JLabel(
+															"Enter your plain text here:");
 	private JTextArea			inputText			= new JTextArea(7,
 															columnSize);
+	// private JTextArea inputText = new HintTextArea(
+	// "Enter your plain text here");
 	private JScrollPane			inputScrollPane		= new JScrollPane();
 	private JLabel				keyLabel			= new JLabel("Key: ");
 	private JTextField			keyText				= new JTextField(columnSize
 															- keySizeIndex);
+	private JLabel				keyHintLabel		= new JLabel(
+															"Choose a cipher");
 	
 	private JPanel				resultPanel			= new JPanel(leftFlow);
+	private JLabel				resultLabel			= new JLabel(
+															"Your result will be shown here:");
 	private JTextArea			resultText			= new JTextArea(7,
 															columnSize);
 	private JScrollPane			resultScrollPane	= new JScrollPane();
@@ -51,7 +59,8 @@ public class GUI extends JFrame implements ActionListener {
 			"Viginere",
 			"Keyword",
 			"Atbash",
-			"Dvorak"								};
+			"Dvorak",
+			"-- Select --"							};
 	private JComboBox<String>	cipherSelectorBox	= new JComboBox<String>(
 															cipherList);
 	
@@ -76,34 +85,51 @@ public class GUI extends JFrame implements ActionListener {
 				checkKeyCipherCompatibility();
 			}
 		});
+		keyText.setToolTipText("Enter your key here.");
+		// keyText.setText("Choose a cipher.");
+		keyText.setBackground(Color.white);
+		keyText.setEnabled(false);
 		
 		inputText.setLineWrap(true);
 		inputText.setWrapStyleWord(true);
+		// inputText.setRows(7);
+		// inputText.setColumns(columnSize);
+		inputText.setToolTipText("Enter your plain text here.");
 		TransferFocus.patch(inputText);
 		inputPanel.setBackground(mainColor);
-		inputPanel.setPreferredSize(new Dimension(360, 150));
+		// inputPanel.setPreferredSize(new Dimension(360, 150));
+		// inputPanel.setPreferredSize(new Dimension(360, 170));
+		inputPanel.setPreferredSize(new Dimension(360, 190));
 		inputScrollPane.setViewportView(inputText);
+		inputPanel.add(inputLabel);
 		inputPanel.add(inputScrollPane);
 		inputPanel.add(keyLabel);
 		inputPanel.add(keyText);
+		inputPanel.add(keyHintLabel);
 		
 		resultText.setLineWrap(true);
 		resultText.setWrapStyleWord(true);
+		resultText.setToolTipText("Your result will be shown here.");
 		TransferFocus.patch(resultText);
 		resultPanel.setBackground(mainColor);
-		resultPanel.setPreferredSize(new Dimension(360, 130));
+		// resultPanel.setPreferredSize(new Dimension(360, 130));
+		resultPanel.setPreferredSize(new Dimension(360, 150));
 		resultScrollPane.setViewportView(resultText);
+		resultPanel.add(resultLabel);
 		resultPanel.add(resultScrollPane);
 		
 		ActionListener cipherSelectorListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				checkKeyCipherCompatibility();
+				setKeyFieldAvailability();
 			}
 		};
 		
-		cipherSelectorBox.setSelectedIndex(0);
+		cipherSelectorBox
+				.setSelectedIndex(cipherSelectorBox.getItemCount() - 1);
 		cipherSelectorBox.addActionListener(cipherSelectorListener);
+		cipherSelectorBox.setToolTipText("Choose a cipher.");
 		comboBoxPanel.setBackground(mainColor);
 		comboBoxPanel.add(cipherSelectorBox);
 		
@@ -117,7 +143,9 @@ public class GUI extends JFrame implements ActionListener {
 		mainPanel.add(comboBoxPanel);
 		mainPanel.add(buttonPanel);
 		mainPanel.add(resultPanel);
-		mainPanel.setPreferredSize(new Dimension(370, 340));
+		// mainPanel.setPreferredSize(new Dimension(370, 340));
+		// mainPanel.setPreferredSize(new Dimension(370, 380));
+		mainPanel.setPreferredSize(new Dimension(370, 400));
 		mainPanel.setBackground(Color.red);
 		mainPanel.setBackground(mainColor);
 		getContentPane().setBackground(mainColor);
@@ -126,7 +154,9 @@ public class GUI extends JFrame implements ActionListener {
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationByPlatform(true);
-		setSize(400, 400);
+		// setSize(400, 400);
+		// setSize(400, 440);
+		setSize(400, 440);
 		setVisible(true);
 	}
 	
@@ -202,6 +232,64 @@ public class GUI extends JFrame implements ActionListener {
 		return decoded;
 	}
 	
+	public void setKeyFieldAvailability() {
+		int cipherIndex = cipherSelectorBox.getSelectedIndex();
+		boolean keyIsNeeded = false;
+		boolean isCipher = true;
+		
+		String hint = "";
+		
+		switch (cipherIndex) {
+		case 0: // Caesar
+			keyIsNeeded = true;
+			hint = "Enter a number";
+			break;
+		case 1: // Viginere
+			keyIsNeeded = true;
+			hint = "Enter a letter or a word";
+			break;
+		case 2: // Keyword Cipher
+			keyIsNeeded = true;
+			hint = "Enter a letter or a word";
+			break;
+		case 3: // Atbash
+			keyIsNeeded = false;
+			break;
+		case 4: // Dvorak
+			keyIsNeeded = false;
+			break;
+		default:
+			keyIsNeeded = false;
+			isCipher = false;
+		}
+		
+		// keyText.setEnabled(keyIsNeeded);
+		// if (keyIsNeeded) {
+		// keyText.setText("");
+		// } else {
+		// keyText.setText("A key is not needed for this cipher");
+		// keyText.setBackground(Color.white);
+		// }
+		// if (!isCipher) {
+		// keyText.setText("Choose a cipher.");
+		// keyText.setBackground(Color.white);
+		// }
+		
+		if (keyIsNeeded) {
+			keyHintLabel.setText(hint);
+		} else {
+			keyHintLabel.setText("A key is not needed for this cipher");
+			keyText.setText("A key is not needed for this cipher");
+			keyText.setBackground(Color.white);
+		}
+		if (!isCipher) {
+			keyHintLabel.setText("Choose a cipher.");
+			keyText.setText("Choose a cipher.");
+			keyText.setBackground(Color.white);
+		}
+		
+	}
+	
 	public void checkKeyCipherCompatibility() {
 		int cipherIndex = cipherSelectorBox.getSelectedIndex();
 		String key = keyText.getText();
@@ -213,7 +301,12 @@ public class GUI extends JFrame implements ActionListener {
 			keyIsValid = Caesar.isValidKey(key);
 			break;
 		case 1: // Viginere
-			keyIsValid = true;
+			// keyIsValid = true;
+			if (key.isEmpty() || key == null) {
+				keyIsValid = false;
+			} else {
+				keyIsValid = true;
+			}
 			break;
 		case 2: // Keyword Cipher
 			keyIsValid = KeywordCipher.isValidKey(key);

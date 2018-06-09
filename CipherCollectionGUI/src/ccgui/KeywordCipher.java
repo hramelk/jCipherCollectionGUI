@@ -52,6 +52,9 @@ public class KeywordCipher {
 	}
 	
 	public static boolean isValidKey(String key) {
+		if (key.length() == 0) {
+			return false;
+		}
 		key = key.toUpperCase();
 		for (int i = 0; i < key.length(); i++) {
 			char charTemp = key.charAt(i);
