@@ -4,6 +4,9 @@ public class Caesar {
 	
 	public static String encode(String openText, int key) {
 		String encoded = "";
+		if (key < 0) {
+			key = 26 + key;
+		}
 		for (int i = 0; i < openText.length(); i++) {
 			char cp = openText.charAt(i);
 			int index = getIndexByRange(cp);
@@ -20,6 +23,9 @@ public class Caesar {
 	
 	public static String decode(String encodedText, int key) {
 		String decodedText = "";
+		if (key < 0) {
+			key = 26 + key;
+		}
 		for (int i = 0; i < encodedText.length(); i++) {
 			char cp = encodedText.charAt(i);
 			int index = getIndexByRange(cp);
