@@ -290,18 +290,20 @@ public class GUI extends JFrame implements ActionListener {
 			keyIsValid = KeywordCipher.isValidKey(key);
 			break;
 		case 3: // Atbash
-			if (key.isEmpty() || key == null) {
-				keyIsValid = true;
-			} else {
-				keyIsValid = false;
-			}
+			// if (key.isEmpty() || key == null) {
+			// keyIsValid = true;
+			// } else {
+			// keyIsValid = false;
+			// }
+			keyIsValid = true;
 			break;
 		case 4: // Dvorak
-			if (key.isEmpty() || key == null) {
-				keyIsValid = true;
-			} else {
-				keyIsValid = false;
-			}
+			// if (key.isEmpty() || key == null) {
+			// keyIsValid = true;
+			// } else {
+			// keyIsValid = false;
+			// }
+			keyIsValid = true;
 			break;
 		default:
 			break;
