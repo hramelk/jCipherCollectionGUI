@@ -255,6 +255,8 @@ public class GUI extends JFrame implements ActionListener {
 		
 		if (keyIsNeeded) {
 			keyHintLabel.setText(hint);
+			keyText.setText("");
+			keyText.setBackground(Color.white);
 		} else {
 			keyHintLabel.setText("A key is not needed for this cipher");
 			keyText.setText("A key is not needed for this cipher");
